@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const noteRoutes = require('./server/routes/noteRoutes');
 const userRoutes = require('./server/routes/userRoutes');
 const connectDB = require('./server/config/db');
-const {logRequests, errorHandler} = require('./server/middlewares/auth');
+const {logRequests, errorHandler, isAuthenticated} = require('./server/middlewares/auth');
 
 // Load environment variables
 require('dotenv').config();
@@ -21,7 +21,7 @@ app.use(logRequests);
 connectDB();
 
 // Routes
-app.use('/users', userRoutes);
+app.use('/users', isAuthenticated, userRoutes);
 app.use('/notes', noteRoutes);
 
 // use error middleware
@@ -30,5 +30,5 @@ app.use(errorHandler);
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port http://localhost:${PORT}`);
 });

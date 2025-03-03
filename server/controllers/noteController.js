@@ -8,7 +8,7 @@ const createNote = async (req, res) => {
     const user = await userModel.findById(userId);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
-    const note = new note({ user: userId, title, content });
+    const note = new noteModel({ title: title, content: content, user: userId });
     await note.save();
 
     res.status(201).json(note);

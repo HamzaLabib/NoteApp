@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Daily Notes</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Your Daily Notes</h1>
+
+        <!-- Auth buttons (Login or Register) -->
+        <div id="auth-buttons"></div>
+
+        <!-- App Content: Notes section -->
+        <form onsubmit="addNote(event)" id="appContent">
+            <input type="text" min="5" max="100" required id="title" placeholder="Add a new note">
+            <input type="text" min="5" required id="description" placeholder="Description">
+            <button type="submit" id="addNoteButton">Add Note</button>
+            <ul id="notesList"></ul>
+        </form>
+    </div>
+
+    <ul id="notesList"></ul> 
+
+
+    <div class="editNoteModal">
+        <form onsubmit="handleEditNote(event)">
+            <input type="text" required id="editTitle" placeholder="Add a new note">
+            <input type="text" required id="editDescription" placeholder="Description">
+            <input type="hidden" required id="noteId" placeholder="Description">
+            <button type="submit" id="editNoteButton">Edit Note</button>
+            <button type="button" onclick="closeEditModal()" id="cancelEditButton">Cancel</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="authScript.js"></script>
+    
+</body>
+</html>
