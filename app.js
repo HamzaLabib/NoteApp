@@ -17,18 +17,22 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(logRequests);
 
+// Serve static files from client directory
+app.use(express.static('client'));
+
 // Connect to MongoDB
 connectDB();
 
 // Routes
-app.use('/users', isAuthenticated, userRoutes);
+app.use('/users', userRoutes);
 app.use('/notes', noteRoutes);
 
 // use error middleware
 app.use(errorHandler);
 
 // Start the server
-const PORT = process.env.PORT || 5000;
+const PORT = 5002;
+//const PORT = process.env.PORT || 5002;
 app.listen(PORT, () => {
   console.log(`Server running on port http://localhost:${PORT}`);
 });

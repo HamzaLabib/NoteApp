@@ -34,4 +34,8 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const welcome = (req, res) => {
+  res.status(200).json({ message: `Welcome, ${req.user.username}!` });
+};
+
+module.exports = { register, login, welcome };
