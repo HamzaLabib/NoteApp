@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:5002/users';
+const BASE_URL = '/users';
 
 // Utility to check for a stored JWT
 function checkAuth() {

@@ -1,5 +1,5 @@
 // all HTTP calls to your Express /notes API
-const API_URL = 'http://localhost:5002/notes';
+const API_URL = '/notes';
 
 function getAuthHeader() {
   const token = localStorage.getItem('token');
