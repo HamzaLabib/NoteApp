@@ -1,42 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Daily Notes</title>
-    <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Daily Notes</title>
+  <link rel="stylesheet" href="css/styles.css"/>
 </head>
 <body>
-    <div class="container">
-        <h1>Your Daily Notes</h1>
+  <div class="container">
+    <h1>Your Daily Notes</h1>
 
-        <!-- Auth buttons (Login or Register) -->
-        <div id="auth-buttons"></div>
+    <!-- Auth buttons will go here -->
+    <div id="auth-buttons"></div>
 
-        <!-- App Content: Notes section -->
-        <form onsubmit="addNote(event)" id="appContent">
-            <input type="text" min="5" max="100" required id="title" placeholder="Add a new note">
-            <input type="text" min="5" required id="description" placeholder="Description">
-            <button type="submit" id="addNoteButton">Add Note</button>
-            <ul id="notesList"></ul>
-        </form>
-    </div>
+    <!-- Add a new note -->
+    <form id="addNoteForm">
+      <input
+        type="text"
+        id="title"
+        placeholder="Add a new note"
+        required minlength="5"
+      />
+      <input
+        type="text"
+        id="description"
+        placeholder="Description"
+        required minlength="5"
+      />
+      <button type="submit">Add Note</button>
+    </form>
 
-    <ul id="notesList"></ul> 
+    <!-- *** Only one notesList here *** -->
+    <ul id="notesList"></ul>
+  </div>
 
+  <!-- Edit Note Modal -->
+  <div class="editNoteModal" style="display:none;">
+    <form id="editNoteForm">
+      <input
+        type="text"
+        id="editTitle"
+        placeholder="Title"
+        required minlength="5"
+      />
+      <input
+        type="text"
+        id="editDescription"
+        placeholder="Description"
+        required minlength="10"
+        maxlength="1000"
+      />
+      <input type="hidden" id="noteId" />
+      <button type="submit">Save</button>
+      <button type="button" id="cancelEditButton">Cancel</button>
+    </form>
+  </div>
 
-    <div class="editNoteModal">
-        <form onsubmit="handleEditNote(event)">
-            <input type="text" required id="editTitle" placeholder="Add a new note">
-            <input type="text" required id="editDescription" placeholder="Description">
-            <input type="hidden" required id="noteId" placeholder="Description">
-            <button type="submit" id="editNoteButton">Edit Note</button>
-            <button type="button" onclick="closeEditModal()" id="cancelEditButton">Cancel</button>
-        </form>
-    </div>
-
-    <script src="script.js"></script>
-    <script src="authScript.js"></script>
-    
+  <!-- Auth logic (login/register/logout/welcome) -->
+  <script src="./scripts/authScript.js"></script>
+  <!-- Notes app logic as a module -->
+  <script type="module" src="./scripts/main.js"></script>
 </body>
 </html>

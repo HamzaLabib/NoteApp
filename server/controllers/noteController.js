@@ -1,14 +1,12 @@
-const noteModel = require('../models/note');
-const userModel = require('../models/user');
+const Note = require('../models/note');
 
-const createNote = async (req, res) => {
+// POST /notes
+exports.createNote = async (req, res) => {
   try {
-    const { userId, title, content } = req.body;
+    const { title, content } = req.body;
+    const userId = req.user.id;
 
-    const user = await userModel.findById(userId);
-    if (!user) return res.status(404).json({ error: 'User not found' });
-
-    const note = new noteModel({ title: title, content: content, user: userId });
+    const note = new Note({ title, content, user: userId });
     await note.save();
 
     res.status(201).json(note);
@@ -17,66 +15,64 @@ const createNote = async (req, res) => {
   }
 };
 
-const getNotes = async (req, res) => {
+// GET /notes
+exports.getNotes = async (req, res) => {
   try {
-    const notes = await noteModel.find().populate('user', 'username email');
+    const userId = req.user.id;
+    const notes = await Note.find({ user: userId })
+                            .populate('user', 'username email');
     res.status(200).json(notes);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-const getNoteById = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const note = await noteModel.findById(id);
-      if (!note) {
-        return res.status(404).json({ error: 'Note not found' });
-      }
-      res.status(200).json(note);
-    } catch (err) {
-      res.status(500).json({ error: 'Server error' });
-    }
-  };
-  
-  const updateNote = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { title, content } = req.body;
-      const note = await noteModel.findByIdAndUpdate(
-        id,
-        { title, content },
-        { new: true, runValidators: true }
-      );
-      if (!note) {
-        return res.status(404).json({ error: 'Note not found' });
-      }
-      res.status(200).json(note);
-    } catch (err) {
-      if (err.name === 'ValidationError') {
-        return res.status(400).json({ error: err.message });
-      }
-      res.status(500).json({ error: 'Server error' });
-    }
-  };
-  
-  const deleteNote = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const note = await noteModel.findByIdAndDelete(id);
-      if (!note) {
-        return res.status(404).json({ error: 'Note not found' });
-      }
-      res.status(200).json({ message: 'Note deleted' });
-    } catch (err) {
-      res.status(500).json({ error: 'Server error' });
-    }
-  };
+// GET /notes/:id
+exports.getNoteById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
 
-module.exports = {
-    createNote: createNote, 
-    getNotes: getNotes,
-    getNoteById: getNoteById,
-    updateNote: updateNote,
-    deleteNote: deleteNote,
+    const note = await Note.findOne({ _id: id, user: userId });
+    if (!note) return res.status(404).json({ error: 'Note not found' });
+
+    res.status(200).json(note);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// PUT /notes/:id
+exports.updateNote = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+    const { title, content } = req.body;
+
+    const note = await Note.findOneAndUpdate(
+      { _id: id, user: userId },
+      { title, content },
+      { new: true, runValidators: true }
+    );
+    if (!note) return res.status(404).json({ error: 'Note not found' });
+
+    res.status(200).json(note);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// DELETE /notes/:id
+exports.deleteNote = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    const note = await Note.findOneAndDelete({ _id: id, user: userId });
+    if (!note) return res.status(404).json({ error: 'Note not found' });
+
+    res.status(200).json({ message: 'Note deleted' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
