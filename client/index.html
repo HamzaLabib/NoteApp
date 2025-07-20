@@ -10,55 +10,34 @@
   <div class="container">
     <h1>Your Daily Notes</h1>
 
-    <!-- Auth buttons will go here -->
+    <!-- Auth buttons will be injected here -->
     <div id="auth-buttons"></div>
 
     <!-- Add a new note -->
     <form id="addNoteForm">
-      <input
-        type="text"
-        id="title"
-        placeholder="Add a new note"
-        required minlength="5"
-      />
-      <input
-        type="text"
-        id="description"
-        placeholder="Description"
-        required minlength="5"
-      />
+      <input type="text" id="title" placeholder="Add a new note" required minlength="5"/>
+      <input type="text" id="description" placeholder="Description" required minlength="5"/>
       <button type="submit">Add Note</button>
     </form>
 
-    <!-- *** Only one notesList here *** -->
+    <!-- List of existing notes -->
     <ul id="notesList"></ul>
   </div>
 
   <!-- Edit Note Modal -->
   <div class="editNoteModal" style="display:none;">
     <form id="editNoteForm">
-      <input
-        type="text"
-        id="editTitle"
-        placeholder="Title"
-        required minlength="5"
-      />
-      <input
-        type="text"
-        id="editDescription"
-        placeholder="Description"
-        required minlength="10"
-        maxlength="1000"
-      />
-      <input type="hidden" id="noteId" />
+      <input type="text" id="editTitle" placeholder="Title" required minlength="5"/>
+      <input type="text" id="editDescription" placeholder="Description" required minlength="10" maxlength="1000"/>
+      <input type="hidden" id="noteId"/>
       <button type="submit">Save</button>
       <button type="button" id="cancelEditButton">Cancel</button>
     </form>
   </div>
 
-  <!-- Auth logic (login/register/logout/welcome) -->
+  <!-- Classic auth logic -->
   <script src="./scripts/authScript.js"></script>
-  <!-- Notes app logic as a module -->
+  <!-- ES module notes logic -->
   <script type="module" src="./scripts/main.js"></script>
 </body>
 </html>
